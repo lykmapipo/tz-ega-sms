@@ -6,7 +6,15 @@
   "scripts": {
     "test": "grunt test"
   },
-  "keywords": [],
+  "keywords": [
+    "lykmapipo",
+    "tanzania",
+    "ega",
+    "tz",
+    "sms",
+    "quick",
+    "api"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
