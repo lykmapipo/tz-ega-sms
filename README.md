@@ -22,23 +22,23 @@ npm install --save @lykmapipo/tz-ega-sms
 
 ```js
 const transport = require('@lykmapipo/tz-ega-sms')({
-    apiKey: process.env.EGA_SMS_API_KEY,
-    apiUser: process.env.EGA_SMS_API_USER,
-    apiUrl: process.env.EGA_SMS_API_URL,
-    apiSender: process.env.EGA_SMS_DEFAULT_SENDER_ID
+  apiKey: process.env.EGA_SMS_API_KEY,
+  apiUser: process.env.EGA_SMS_API_USER,
+  apiUrl: process.env.EGA_SMS_API_URL,
+  apiSender: process.env.EGA_SMS_DEFAULT_SENDER_ID
 });
 
 const sms = ({
-    message: 'Hello Juma, Your water bill is TZS 17,439/=',
-    datetime: '2018-08-06 13:43:15',
-    'sender_id': 'BILLING',
-    'mobile_service_id': '400',
-    recipients: '255714565656'
+  message: 'Hello Juma, Your water bill is TZS 17,439/=',
+  datetime: '2018-08-06 13:43:15',
+  'sender_id': 'BILLING',
+  'mobile_service_id': '400',
+  recipients: '255714565656'
 });
 
-transport.send(sms, function(error, response) {
-    expect(error).to.not.exist;
-    expect(response).to.exist;
+transport.send(sms, function (error, response) {
+  expect(error).to.not.exist;
+  expect(response).to.exist;
 });
 ```
 
