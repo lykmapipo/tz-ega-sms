@@ -1,7 +1,7 @@
 # tz-ega-sms
 
-[![Build module-starter](https://travis-ci.org/lykmapipo/tz-ega-sms.svg?branch=develop)](https://travis-ci.org/lykmapipo/tz-ega-sms)
-[![Dependencies module-starter](https://david-dm.org/lykmapipo/tz-ega-sms/module-starter.svg?style=flat-square)](https://david-dm.org/lykmapipo/tz-ega-sms)
+[![Build Status](https://travis-ci.org/lykmapipo/tz-ega-sms.svg?branch=master)](https://travis-ci.org/lykmapipo/tz-ega-sms)
+[![Dependencies Status](https://david-dm.org/lykmapipo/tz-ega-sms/status.svg)](https://david-dm.org/lykmapipo/tz-ega-sms)
 
 Send SMS over Tanzania EGA API
 
