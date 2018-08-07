@@ -173,7 +173,7 @@ exports.send = function send(sms, done) {
     }
 
     //handle & normalize fail response
-    if (body && body.error) {
+    else if (body && body.error) {
       const {
         statusMessage = 'Invalid Request', statusCode = 500, data = null
       } = body;
