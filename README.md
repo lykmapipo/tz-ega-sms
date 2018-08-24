@@ -22,10 +22,11 @@ npm install --save @lykmapipo/tz-ega-sms
 
 ```js
 const transport = require('@lykmapipo/tz-ega-sms')({
-  apiKey: process.env.EGA_SMS_API_KEY,
-  apiUser: process.env.EGA_SMS_API_USER,
-  apiUrl: process.env.EGA_SMS_API_URL,
-  apiSender: process.env.EGA_SMS_DEFAULT_SENDER_ID
+  apiKey: process.env.SMS_EGA_API_KEY,
+  apiUser: process.env.SMS_EGA_API_USER,
+  apiUrl: process.env.SMS_EGA_API_URL,
+  apiSender: process.env.SMS_EGA_DEFAULT_SENDER_ID
+  apiServiceId: process.env.SMS_EGA_DEFAULT_SERVICE_ID
 });
 
 const sms = ({

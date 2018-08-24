@@ -7,8 +7,14 @@ const _ = require('lodash');
 const async = require('async');
 const moment = require('moment');
 const request = require('request');
-const defaults =
-  ({ apiKey: undefined, apiUser: undefined, apiUrl: undefined, apiSender: undefined });
+const env = require('@lykmapipo/env');
+const defaults = ({
+  apiKey: env('SMS_EGA_API_KEY'),
+  apiUser: env('SMS_EGA_API_USER'),
+  apiUrl: env('SMS_EGA_API_URL'),
+  apiSender: env('SMS_EGA_DEFAULT_SENDER_ID'),
+  apiServiceId: env('SMS_EGA_DEFAULT_SERVICE_ID')
+});
 const X_AUTH_REQUEST_TYPE = 'api';
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
@@ -58,6 +64,64 @@ exports = module.exports = function tzEGASMS(options) {
 
   return exports;
 
+};
+
+
+/**
+ * @name validate
+ * @description check for sms validity
+ * @param {Object} sms sms payload to validate
+ * @return {Error|Boolean} if valid or error
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.3.0
+ * @public
+ * @license MIT
+ */
+exports.validate = function validate(sms) {
+
+  /*jshint camelcase:false*/
+
+  //ensure sms
+  const _sms = _.merge({}, sms);
+
+  //ensure body
+  if (_.isEmpty(_sms.message)) {
+    let error = new Error('Missing Message Body');
+    error.code = error.status = 400;
+    return error;
+  }
+
+  //ensure send datetime
+  if (_.isEmpty(_sms.datetime)) {
+    let error = new Error('Missing Message DateTime');
+    error.code = error.status = 400;
+    return error;
+  }
+
+  //ensure sender id
+  if (_.isEmpty(_sms.sender_id)) {
+    let error = new Error('Missing Message Sender Id');
+    error.code = error.status = 400;
+    return error;
+  }
+
+  //ensure service id
+  if (!_sms.mobile_service_id) {
+    let error = new Error('Missing Message Mobile Service Id');
+    error.code = error.status = 400;
+    return error;
+  }
+
+  //ensure recipients
+  if (_.isEmpty(_sms.recipients)) {
+    let error = new Error('Missing Message Recipients');
+    error.code = error.status = 400;
+    return error;
+  }
+
+  return true;
+  /*jshint camelcase:true*/
 };
 
 
@@ -115,10 +179,9 @@ exports.hash = function hash(secret, data, done) {
  *  .send({recipients:'255716111888', message: 'Test', sender_id:'DAWASCO'}, done);
  */
 exports.send = function send(sms, done) {
-  //TODO validate sms payload
 
   //obtain api params
-  const { apiKey, apiUser, apiSender, apiUrl } = exports.options;
+  const { apiKey, apiUser, apiSender, apiUrl, apiServiceId } = exports.options;
 
   //ensure sms datetime & sender
   const dateTime = moment(new Date()).format(DATE_TIME_FORMAT);
@@ -127,10 +190,16 @@ exports.send = function send(sms, done) {
     message: sms.message,
     datetime: sms.datetime || dateTime,
     sender_id: sms.sender_id || apiSender,
-    mobile_service_id: sms.mobile_service_id,
+    mobile_service_id: (sms.mobile_service_id || apiServiceId),
     recipients: sms.recipients
   };
   /*jshint camelcase:true*/
+
+  //validate sms payload
+  const isValid = exports.validate(_sms);
+  if (isValid instanceof Error) {
+    return done(isValid);
+  }
 
   //send sms
   async.waterfall([
@@ -175,7 +244,8 @@ exports.send = function send(sms, done) {
     //handle & normalize fail response
     else if (body && body.error) {
       const {
-        statusMessage = 'Invalid Request', statusCode = 500, data = null
+        statusMessage = 'Invalid Request', statusCode = 500, data =
+          null
       } = body;
       error = new Error(statusMessage);
       error.code = statusCode;

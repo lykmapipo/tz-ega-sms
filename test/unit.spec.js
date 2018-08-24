@@ -1,18 +1,23 @@
 'use strict';
 
 
+/* fake process.env */
+process.env.SMS_EGA_DEFAULT_SERVICE_ID = 62;
+
+
 /* dependencies */
 const { expect } = require('chai');
 const nock = require('nock');
 
-//initalize ega sms transport
+
+/* initalize ega sms transport */
 const baseUrl = 'http://api.example.com';
 const smsUrl = '/sms';
 const transport = require('..')({
-  apiKey: process.env.EGA_SMS_API_KEY || 'iEPZWTdSU63WNaN',
-  apiUser: process.env.EGA_SMS_API_USER || 'test@example.com',
-  apiUrl: process.env.EGA_SMS_API_URL || `${baseUrl}${smsUrl}`,
-  apiSender: process.env.EGA_SMS_DEFAULT_SENDER_ID || 'ega'
+  apiKey: 'iEPZWTdSU63WNaN',
+  apiUser: 'test@example.com',
+  apiUrl: `${baseUrl}${smsUrl}`,
+  apiSender: 'EGA'
 });
 
 describe('tz-ega-sms', function () {
@@ -24,11 +29,112 @@ describe('tz-ega-sms', function () {
     expect(transport).to.have.length(1);
   });
 
+  it('should have required options', function () {
+    expect(transport.options).to.exist;
+    expect(transport.options.apiKey).to.exist;
+    expect(transport.options.apiUser).to.exist;
+    expect(transport.options.apiUrl).to.exist;
+    expect(transport.options.apiSender).to.exist;
+    expect(transport.options.apiServiceId).to.exist;
+  });
+
   it('should be able to hash logic', function () {
     expect(transport.hash).to.exist;
     expect(transport.hash).to.be.a('function');
     expect(transport.hash.name).to.be.equal('hash');
     expect(transport.hash).to.have.length(3);
+  });
+
+  it('should be able to validate', function () {
+
+    const sms = ({
+      message: 'MESSAGE BODY',
+      datetime: '2018-08-06 13:43:15',
+      'sender_id': 'SENDERID',
+      'mobile_service_id': 'SERVICEID',
+      recipients: '255714565656'
+    });
+
+    const isValid = transport.validate(sms);
+    expect(isValid).to.be.true;
+
+  });
+
+  it('should be able to validate', function () {
+
+    const sms = ({
+      datetime: '2018-08-06 13:43:15',
+      'sender_id': 'SENDERID',
+      'mobile_service_id': 'SERVICEID',
+      recipients: '255714565656'
+    });
+
+    const isValid = transport.validate(sms);
+    expect(isValid).to.be.an('error');
+    expect(isValid.message).to.be.equal('Missing Message Body');
+
+  });
+
+  it('should be able to validate', function () {
+
+    const sms = ({
+      message: 'MESSAGE BODY',
+      'sender_id': 'SENDERID',
+      'mobile_service_id': 'SERVICEID',
+      recipients: '255714565656'
+    });
+
+    const isValid = transport.validate(sms);
+    expect(isValid).to.be.an('error');
+    expect(isValid.message).to.be.equal('Missing Message DateTime');
+
+  });
+
+  it('should be able to validate', function () {
+
+    const sms = ({
+      message: 'MESSAGE BODY',
+      datetime: '2018-08-06 13:43:15',
+      'mobile_service_id': 'SERVICEID',
+      recipients: '255714565656'
+    });
+
+    const isValid = transport.validate(sms);
+    expect(isValid).to.be.an('error');
+    expect(isValid.message).to.be.equal('Missing Message Sender Id');
+
+  });
+
+  it('should be able to validate', function () {
+
+    const sms = ({
+      message: 'MESSAGE BODY',
+      datetime: '2018-08-06 13:43:15',
+      'sender_id': 'SENDERID',
+      recipients: '255714565656'
+    });
+
+    const isValid = transport.validate(sms);
+    expect(isValid).to.be.an('error');
+    expect(isValid.message)
+      .to.be.equal('Missing Message Mobile Service Id');
+
+  });
+
+  it('should be able to validate', function () {
+
+    const sms = ({
+      message: 'MESSAGE BODY',
+      datetime: '2018-08-06 13:43:15',
+      'sender_id': 'SENDERID',
+      'mobile_service_id': 'SERVICEID'
+    });
+
+    const isValid = transport.validate(sms);
+    expect(isValid).to.be.an('error');
+    expect(isValid.message)
+      .to.be.equal('Missing Message Recipients');
+
   });
 
   it('should be able to hash data', function (done) {

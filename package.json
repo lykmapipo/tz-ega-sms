@@ -1,6 +1,6 @@
 {
   "name": "@lykmapipo/tz-ega-sms",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Send SMS over Tanzania EGA API",
   "main": "index.js",
   "scripts": {
@@ -16,12 +16,13 @@
     "api"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
+    "@lykmapipo/env": "^0.1.0",
     "async": "^2.6.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
-    "request": "^2.87.0"
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -31,6 +32,6 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^5.2.0",
-    "nock": "^9.4.4"
+    "nock": "^9.6.1"
   }
 }
