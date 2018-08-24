@@ -15,8 +15,26 @@
     "quick",
     "api"
   ],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lykmapipo/tz-ega-sms.git"
+  },
+  "author": {
+    "name": "lykmapipo",
+    "email": "lallyelias87@gmail.com",
+    "url": "https://github.com/lykmapipo"
+  },
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lykmapipo/tz-ega-sms/issues"
+  },
+  "homepage": "https://github.com/lykmapipo/tz-ega-sms",
+  "contributors": [
+    {
+      "name": "lykmapipo",
+      "github": "https://github.com/lykmapipo"
+    }
+  ],
   "dependencies": {
     "@lykmapipo/env": "^0.1.0",
     "async": "^2.6.1",

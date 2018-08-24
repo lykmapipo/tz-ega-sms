@@ -137,6 +137,25 @@ describe('tz-ega-sms', function () {
 
   });
 
+  it('should not send invalid sms', function (done) {
+
+    const sms = ({
+      message: 'MESSAGE BODY',
+      datetime: '2018-08-06 13:43:15',
+      'sender_id': 'SENDERID',
+      'mobile_service_id': 'SERVICEID'
+    });
+
+    transport.send(sms, function (error) {
+      expect(error).to.exist;
+      expect(error).to.be.an('error');
+      expect(error.message)
+        .to.be.equal('Missing Message Recipients');
+      done();
+    });
+
+  });
+
   it('should be able to hash data', function (done) {
 
     const { apiKey } = transport.options;
@@ -225,7 +244,7 @@ describe('tz-ega-sms', function () {
 
   });
 
-  it('should be able to unsuccessfully send', function (done) {
+  it('should throw error on unsuccessfully send', function (done) {
 
     const sms = ({
       message: 'MESSAGE BODY',
