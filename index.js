@@ -185,13 +185,21 @@ exports.send = function send(sms, done) {
 
   //ensure sms datetime & sender
   const dateTime = moment(new Date()).format(DATE_TIME_FORMAT);
+
+  //prepare & ensure unique recipients
+  let recipients = [].concat(sms.recipients);
+  recipients = _.compact(recipients);
+  recipients = _.uniq(recipients);
+  recipients =
+    (recipients.length > 1 ? recipients.join(',') : _.first(recipients));
+
   /*jshint camelcase:false*/
   const _sms = {
     message: sms.message,
     datetime: sms.datetime || dateTime,
     sender_id: sms.sender_id || apiSender,
     mobile_service_id: (sms.mobile_service_id || apiServiceId),
-    recipients: sms.recipients
+    recipients: recipients
   };
   /*jshint camelcase:true*/
 
@@ -234,35 +242,38 @@ exports.send = function send(sms, done) {
 
   ], function (error, response, body) {
 
+    //ensure body
+    const _body = _.merge({}, body);
+
     //handle error
     if (error) {
       error.code = (error.code || 500);
       error.data = (error.data || undefined);
-      done(error);
+      return done(error);
     }
 
     //handle & normalize fail response
-    else if (body && body.error) {
+    else if (_body && _body.error) {
       const {
         statusMessage = 'Invalid Request', statusCode = 500, data =
           null
-      } = body;
+      } = _body;
       error = new Error(statusMessage);
       error.code = statusCode;
       error.data = data;
-      error.raw = body;
-      done(error);
+      error.raw = _body;
+      return done(error);
     }
 
     //handle & normalize success response
     else {
       const {
         statusMessage = 'Success', statusCode = 200, data = null
-      } = body;
+      } = _body;
       const result =
         ({ message: statusMessage, code: statusCode, data: data });
-      result.raw = body;
-      done(null, result);
+      result.raw = _body;
+      return done(null, result);
     }
 
   });

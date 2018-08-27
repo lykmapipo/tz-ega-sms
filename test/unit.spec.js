@@ -63,6 +63,21 @@ describe('tz-ega-sms', function () {
   it('should be able to validate', function () {
 
     const sms = ({
+      message: 'MESSAGE BODY',
+      datetime: '2018-08-06 13:43:15',
+      'sender_id': 'SENDERID',
+      'mobile_service_id': 'SERVICEID',
+      recipients: ['255714565656', '255714567656']
+    });
+
+    const isValid = transport.validate(sms);
+    expect(isValid).to.be.true;
+
+  });
+
+  it('should be able to validate', function () {
+
+    const sms = ({
       datetime: '2018-08-06 13:43:15',
       'sender_id': 'SENDERID',
       'mobile_service_id': 'SERVICEID',
@@ -97,6 +112,21 @@ describe('tz-ega-sms', function () {
       datetime: '2018-08-06 13:43:15',
       'mobile_service_id': 'SERVICEID',
       recipients: '255714565656'
+    });
+
+    const isValid = transport.validate(sms);
+    expect(isValid).to.be.an('error');
+    expect(isValid.message).to.be.equal('Missing Message Sender Id');
+
+  });
+
+  it('should be able to validate', function () {
+
+    const sms = ({
+      message: 'MESSAGE BODY',
+      datetime: '2018-08-06 13:43:15',
+      'mobile_service_id': 'SERVICEID',
+      recipients: []
     });
 
     const isValid = transport.validate(sms);
@@ -176,8 +206,9 @@ describe('tz-ega-sms', function () {
 
   });
 
-  it('should be able to send successfully', function (done) {
+  it('should be able to send single recipient successfully', function (done) {
 
+    /*jshint camelcase:false*/
     const sms = ({
       message: 'MESSAGE BODY',
       datetime: '2018-08-06 13:43:15',
@@ -188,7 +219,7 @@ describe('tz-ega-sms', function () {
 
     nock(baseUrl)
       .post(smsUrl)
-      .reply(function ( /*uri, requestBody*/ ) {
+      .reply(function (uri, requestBody) {
 
         //assert headers
         expect(this.req.headers.accept).to.equal('application/json');
@@ -199,6 +230,14 @@ describe('tz-ega-sms', function () {
         expect(this.req.headers['x-auth-request-hash']).to.not.be.null;
         expect(this.req.headers['x-auth-request-id']).to.not.be.null;
         expect(this.req.headers['x-auth-request-type']).to.not.be.null;
+
+        //assert body
+        const _sms = JSON.parse(requestBody.data);
+        expect(_sms.message).to.equal(sms.message);
+        expect(_sms.datatime).to.equal(sms.datatime);
+        expect(_sms.sender_id).to.equal(sms.sender_id);
+        expect(_sms.mobile_service_id).to.equal(sms.mobile_service_id);
+        expect(_sms.recipients).to.equal(sms.recipients);
 
         //fake success response
         return [200, {
@@ -239,6 +278,87 @@ describe('tz-ega-sms', function () {
       ]);
 
       done(error, response);
+
+      /*jshint camelcase:true*/
+
+    });
+
+  });
+
+  it('should be able to send multi recipient successfully', function (done) {
+
+    /*jshint camelcase:false*/
+    const sms = ({
+      message: 'MESSAGE BODY',
+      datetime: '2018-08-06 13:43:15',
+      'sender_id': 'SENDERID',
+      'mobile_service_id': 'SERVICEID',
+      recipients: ['255714565656', '255714767676']
+    });
+
+    nock(baseUrl)
+      .post(smsUrl)
+      .reply(function (uri, requestBody) {
+
+        //assert headers
+        expect(this.req.headers.accept).to.equal('application/json');
+        expect(this.req.headers['content-type'])
+          .to.equal('application/json');
+        expect(this.req.headers.host).to.equal('api.example.com');
+        expect(this.req.headers.authorization).to.not.be.null;
+        expect(this.req.headers['x-auth-request-hash']).to.not.be.null;
+        expect(this.req.headers['x-auth-request-id']).to.not.be.null;
+        expect(this.req.headers['x-auth-request-type']).to.not.be.null;
+
+        //assert body
+        const _sms = JSON.parse(requestBody.data);
+        expect(_sms.message).to.equal(sms.message);
+        expect(_sms.datatime).to.equal(sms.datatime);
+        expect(_sms.sender_id).to.equal(sms.sender_id);
+        expect(_sms.mobile_service_id).to.equal(sms.mobile_service_id);
+        expect(_sms.recipients).to.equal(sms.recipients.join(','));
+
+        //fake success response
+        return [200, {
+          error: false,
+          statusCode: 48200,
+          statusMessage: 'Success',
+          data: ['Message accepted delivery']
+        }];
+
+      });
+
+    //send a quick
+    transport.send(sms, function (error, response) {
+
+      expect(error).to.be.null;
+      expect(response).to.exist;
+
+      //assert parsed
+      expect(response.message).to.exist;
+      expect(response.message).to.be.equal('Success');
+      expect(response.code).to.exist;
+      expect(response.code).to.be.equal(48200);
+      expect(response.data).to.exist;
+      expect(response.data).to.be.eql([
+        'Message accepted delivery'
+      ]);
+
+      //assert original response
+      expect(response.raw.error).to.exist;
+      expect(response.raw.error).to.be.false;
+      expect(response.raw.statusCode).to.exist;
+      expect(response.raw.statusCode).to.be.equal(48200);
+      expect(response.raw.statusMessage).to.exist;
+      expect(response.raw.statusMessage).to.be.equal('Success');
+      expect(response.raw.data).to.exist;
+      expect(response.raw.data).to.be.eql([
+        'Message accepted delivery'
+      ]);
+
+      done(error, response);
+
+      /*jshint camelcase:true*/
 
     });
 
