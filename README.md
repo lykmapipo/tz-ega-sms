@@ -7,10 +7,10 @@ Send SMS over Tanzania EGA API
 
 ## Requirements
 
-- [NodeJS v8.11.1+](https://nodejs.org)
-- [Npm v5.6.0+](https://www.npmjs.com/)
+- [nodejs v8.11.1+](https://nodejs.org)
+- [npm v5.6.0+](https://www.npmjs.com/)
 - [MongoDB v3.4.10+](https://www.mongodb.com/)
-- [Mongoose v5.1.2+](https://github.com/Automattic/mongoose)
+- [mongoose v5.1.2+](https://github.com/Automattic/mongoose)
 
 ## Installation
 
@@ -22,11 +22,11 @@ npm install --save @lykmapipo/tz-ega-sms
 
 ```js
 const transport = require('@lykmapipo/tz-ega-sms')({
-  apiKey: process.env.SMS_EGA_API_KEY,
-  apiUser: process.env.SMS_EGA_API_USER,
-  apiUrl: process.env.SMS_EGA_API_URL,
-  apiSender: process.env.SMS_EGA_DEFAULT_SENDER_ID
-  apiServiceId: process.env.SMS_EGA_DEFAULT_SERVICE_ID
+  apiKey: process.env.SMS_EGA_TZ_API_KEY,
+  apiUser: process.env.SMS_EGA_TZ_API_USER,
+  apiUrl: process.env.SMS_EGA_TZ_API_URL,
+  apiSender: process.env.SMS_EGA_TZ_DEFAULT_SENDER_ID
+  apiServiceId: process.env.SMS_EGA_TZ_DEFAULT_SERVICE_ID
 });
 
 const sms = ({
