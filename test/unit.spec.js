@@ -2,7 +2,7 @@
 
 
 /* fake process.env */
-process.env.SMS_EGA_DEFAULT_SERVICE_ID = 62;
+process.env.SMS_TZ_EGA_DEFAULT_SERVICE_ID = 62;
 
 
 /* dependencies */

@@ -9,11 +9,11 @@ const moment = require('moment');
 const request = require('request');
 const env = require('@lykmapipo/env');
 const defaults = ({
-  apiKey: env('SMS_EGA_API_KEY'),
-  apiUser: env('SMS_EGA_API_USER'),
-  apiUrl: env('SMS_EGA_API_URL'),
-  apiSender: env('SMS_EGA_DEFAULT_SENDER_ID'),
-  apiServiceId: env('SMS_EGA_DEFAULT_SERVICE_ID')
+  apiKey: env('SMS_TZ_EGA_API_KEY'),
+  apiUser: env('SMS_TZ_EGA_API_USER'),
+  apiUrl: env('SMS_TZ_EGA_API_URL'),
+  apiSender: env('SMS_TZ_EGA_DEFAULT_SENDER_ID'),
+  apiServiceId: env('SMS_TZ_EGA_DEFAULT_SERVICE_ID')
 });
 const X_AUTH_REQUEST_TYPE = 'api';
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
