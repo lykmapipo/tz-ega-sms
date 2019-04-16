@@ -7,13 +7,13 @@ const _ = require('lodash');
 const async = require('async');
 const moment = require('moment');
 const request = require('request');
-const env = require('@lykmapipo/env');
+const { getString } = require('@lykmapipo/env');
 const defaults = ({
-  apiKey: env('SMS_EGA_TZ_API_KEY'),
-  apiUser: env('SMS_EGA_TZ_API_USER'),
-  apiUrl: env('SMS_EGA_TZ_API_URL'),
-  apiSender: env('SMS_EGA_TZ_DEFAULT_SENDER_ID'),
-  apiServiceId: env('SMS_EGA_TZ_DEFAULT_SERVICE_ID')
+  apiKey: getString('SMS_EGA_TZ_API_KEY'),
+  apiUser: getString('SMS_EGA_TZ_API_USER'),
+  apiUrl: getString('SMS_EGA_TZ_API_URL'),
+  apiSender: getString('SMS_EGA_TZ_DEFAULT_SENDER_ID'),
+  apiServiceId: getString('SMS_EGA_TZ_DEFAULT_SERVICE_ID')
 });
 const X_AUTH_REQUEST_TYPE = 'api';
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
