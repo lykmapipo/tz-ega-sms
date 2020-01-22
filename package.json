@@ -36,7 +36,7 @@
     }
   ],
   "dependencies": {
-    "@lykmapipo/env": ">=0.16.4",
+    "@lykmapipo/env": ">=0.16.5",
     "async": ">=3.1.0",
     "lodash": ">=4.17.15",
     "moment": ">=2.24.0",
