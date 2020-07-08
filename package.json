@@ -36,15 +36,15 @@
     }
   ],
   "dependencies": {
-    "@lykmapipo/env": ">=0.17.11",
+    "@lykmapipo/env": ">=0.17.12",
     "async": ">=3.2.0",
-    "lodash": ">=4.17.15",
+    "lodash": ">=4.17.17",
     "moment": ">=2.27.0",
     "request": ">=2.88.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "grunt": "^1.1.0",
+    "grunt": "^1.2.1",
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
@@ -52,7 +52,7 @@
     "js-yaml": ">=3.14.0",
     "jshint-stylish": "^2.2.1",
     "mocha": ">=8.0.1",
-    "nock": "^13.0.1",
+    "nock": "^13.0.2",
     "shelljs": "^0.8.4"
   }
 }
