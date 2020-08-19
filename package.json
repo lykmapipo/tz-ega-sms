@@ -1,6 +1,6 @@
 {
   "name": "@lykmapipo/tz-ega-sms",
-  "version": "0.5.27",
+  "version": "0.5.28",
   "description": "Send SMS over Tanzania EGA API",
   "main": "index.js",
   "scripts": {
