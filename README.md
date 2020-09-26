@@ -9,8 +9,6 @@ Send SMS over Tanzania EGA API
 
 - [nodejs v8.11.1+](https://nodejs.org)
 - [npm v5.6.0+](https://www.npmjs.com/)
-- [MongoDB v3.4.10+](https://www.mongodb.com/)
-- [mongoose v5.1.2+](https://github.com/Automattic/mongoose)
 
 ## Installation
 
