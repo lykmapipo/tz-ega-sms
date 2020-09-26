@@ -7,6 +7,7 @@ process.env.SMS_EGA_TZ_DEFAULT_SERVICE_ID = 62;
 
 /* dependencies */
 const { expect } = require('chai');
+const { parallel } = require('async');
 const nock = require('nock');
 
 
@@ -202,6 +203,31 @@ describe('tz-ega-sms', function () {
       expect(signature).to.exist;
       expect(signature).to.be.a('string');
       done(error, signature);
+    });
+
+  });
+
+  it('should be able to reproduce same hash with same data', function (done) {
+
+    const { apiKey } = transport.options;
+    const sms = ({
+      message: 'MESSAGE BODY',
+      datetime: '2018-08-06 13:43:15',
+      'sender_id': 'SENDERID',
+      'mobile_service_id': 'SERVICEID',
+      recipients: '255714565656'
+    });
+
+    parallel({
+      one: function (next) { transport.hash(apiKey, sms, next); },
+      two: function (next) { transport.hash(apiKey, sms, next); }
+    }, function (error, signatures) {
+      expect(error).to.not.exist;
+      expect(signatures).to.exist;
+      expect(signatures.one).to.be.a('string');
+      expect(signatures.two).to.be.a('string');
+      expect(signatures.one).to.be.eql(signatures.two);
+      done(error, signatures);
     });
 
   });

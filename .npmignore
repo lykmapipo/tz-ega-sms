@@ -19,3 +19,4 @@ test
 Gruntfile.js
 examples
 docs
+.env

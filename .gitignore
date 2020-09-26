@@ -30,3 +30,4 @@ doc
 startup.sh
 spec/intergration.spec.js
 config
+.env
