@@ -36,7 +36,7 @@
     }
   ],
   "dependencies": {
-    "@lykmapipo/env": ">=0.17.23",
+    "@lykmapipo/env": ">=0.17.24",
     "async": ">=3.2.0",
     "lodash": ">=4.17.20",
     "moment": ">=2.29.1",
@@ -50,7 +50,7 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
     "handlebars": "^4.7.6",
-    "js-yaml": ">=3.14.0",
+    "js-yaml": ">=3.14.1",
     "jshint-stylish": "^2.2.1",
     "minimist": "^1.2.5",
     "mocha": ">=8.2.1",
