@@ -1,3 +1,13 @@
+#### 0.5.37 (2021-02-10)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([a226faca](https://github.com/lykmapipo/tz-ega-sms/commit/a226faca4271e74ef32ce52a94da22641df56e28))
+
+##### Documentation Changes
+
+* **changelog:**  generate latest release notes ([02d7b04b](https://github.com/lykmapipo/tz-ega-sms/commit/02d7b04b310ef0469d9fde346dd7b343784b65f3))
+
 #### 0.5.36 (2021-01-06)
 
 #### 0.5.35 (2020-12-26)
